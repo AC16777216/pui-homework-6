@@ -24,12 +24,28 @@ class Roll {
     }
 }
 
-// initialize the cart with 4 rolls
+// initialize the cart 
 function initializeCart() {
-    cartItems.push(new Roll("Original", "Sugar milk", 1, rolls["Original"]["basePrice"]));
+    // initialize with 4 rolls - REMOVED IN HW6
+    /*cartItems.push(new Roll("Original", "Sugar milk", 1, rolls["Original"]["basePrice"]));
     cartItems.push(new Roll("Walnut", "Vanilla milk", 12, rolls["Walnut"]["basePrice"]));
     cartItems.push(new Roll("Raisin", "Sugar milk", 3, rolls["Raisin"]["basePrice"]));
-    cartItems.push(new Roll("Apple", "Keep original", 3, rolls["Apple"]["basePrice"]));
+    cartItems.push(new Roll("Apple", "Keep original", 3, rolls["Apple"]["basePrice"]));*/
+
+    // initialize with global cart
+    /*const globalCartString = localStorage.getItem('globcart');
+    const globalCartForCart = JSON.parse(globalCartString);
+    console.log(globalCartForCart);
+
+    for (const globalCartRoll of globalCartForCart) {
+        cartItems.push(globalCartRoll);
+    }*/
+
+    for (const globalCartRoll of globalCart) {
+        //console.log(globalCartRoll);
+        //console.log(globalCartRoll.calculatedPrice);
+        cartItems.push(globalCartRoll);
+    }
 }
 
 // add a Roll instance to the DOM
@@ -64,10 +80,14 @@ function addRollToPage(roll) {
         cartContainer.querySelector(`#roll-${currentRollCounter}`).remove();
         cartItems.splice(cartItems.indexOf(roll), 1);
         updateTotalPrice();
+
+        globalCart.splice(cartItems.indexOf(roll), 1);
+        updateGlobalCart();
     }
 
     cartContainer.appendChild(cartItemElement);
     rollCounter += 1;
+    updateTotalPrice();
 }
 
 // update the total price field based on the current cart
@@ -76,6 +96,9 @@ function updateTotalPrice() {
     cartItems.forEach(roll => totalPrice += roll.calculatedPrice);
     const totalPriceElement = document.querySelector(".total-price");
     totalPriceElement.innerText = "$ " + totalPrice.toFixed(2);
+
+    //const cartBadgeNum = document.querySelector("#cart-badge");
+    //cartBadgeNum.innerText = cartItems.length;
 }
 
 initializeCart();

@@ -83,11 +83,15 @@ class Roll {
         this.glazing =  rollGlazing;
         this.size = packSize;
         this.basePrice = basePrice;
+		this.calculatedPrice = (this.basePrice + glazingPrices[this.glazing]) * packPrices[this.size];
     }
 }
 
 function printCart() {
 	const roll = new Roll(rollType, glazingOption, packOption, basePrice);
 	cart.push(roll);
+	addToGlobalCart(roll);
 	console.log(cart);
+	console.log(globalCart);
+	//updateCartBadge();
 }
